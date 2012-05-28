@@ -1,3 +1,14 @@
 Hello World!
 
-This is a small collection of scripts that I use to interact with stuff like Google Reader
+This is a small collection of scripts that I use to interact with Google services
+
+For all of them, put your GMail account as the first argument, and make sure OS X
+Keychain Access (support for others soon) has the password for it somewhere.
+
+reader_imageboards_starred.sh
+
+Works for most Moebooru[1] sites like http://konachan.com/ and http://yande.re/
+( formerly moe.imouto/oreno.imouto ) in Google Reader, star the posts you want to
+download and run the.
+
+[1] https://bitbucket.org/edogawaconan/moebooru
