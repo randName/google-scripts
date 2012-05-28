@@ -1,0 +1,10 @@
+[ -z "$1" ] && echo "Usage: $0 gmail" && exit 1
+
+EMAIL=$1
+
+PASWD=$( security 2>&1 >/dev/null find-internet-password -ga $EMAIL | sed 's/password: "\(.*\)"/\1/' )
+[ -z "$PASWD" ] && echo "Error: Account not found!" && exit 1
+
+echo -n "Authenticating... "
+AUTH="$( curl -sd 'Email='$EMAIL'&Passwd='${PASWD}${SVC+'&service='$SVC} "https://www.google.com/accounts/ClientLogin" | grep Auth | sed 's/Auth=\(.*\)/\1/' )"
+echo "Ok"
