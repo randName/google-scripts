@@ -50,8 +50,6 @@ for ib in $( sort <<< "$list" | uniq ); do
 	fi
 done
 
-exit
-
 [ $num_dld -eq 0 ] && exit 0
 
 cd $DOWNLOAD_DIR
