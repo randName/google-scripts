@@ -9,7 +9,7 @@
 
 READER_DIR="http://www.google.com/reader/m/view/user/-/state/com.google/starred"
 
-NOTIFY=growlnotify
+NOTIFY="terminal-notifier"
 DOWNLOAD_DIR=~/Downloads
 
 SVC="reader"
@@ -43,12 +43,14 @@ for ib in $( sort <<< "$list" | uniq ); do
 		(( num_dld++ ))
 		echo "exists."
 	else
-		reason="$( sed -n '/status-notice/{n;p;n;n;n;n;p;}' <<< "$content" | grep Reason | sed  's/.*Reason:\(.*\) MD5.*/\1/' )"
+		reason="$( sed -n '/status-notice/{n;p;n;n;p;}' <<< "$content" | grep Reason | sed  's/.*Reason:\(.*\) MD5.*/\1/' )"
 		echo "was deleted. Reason:${reason}"
-		alt_source="$( grep "Source: " <<< "$content" | sed 's/.*a href="\([^"]*\)" target.*/\1/' )" #'
+		alt_source="$( grep "Source: " <<< "$content" | sed 's/.*a href="\([^"]*\)" rel.*/\1/' )" #'
 		[ -n "$alt_source" ] && echo "Source: $alt_source"
 	fi
 done
+
+exit
 
 [ $num_dld -eq 0 ] && exit 0
 
@@ -59,4 +61,6 @@ for (( a=0, b=1; a<num_dld*2; a+=2, b+=2 )); do echo -n "[`date +%R`] ${dld[$a]}
 
 if [ "$NOTIFY" == "growlnotify" ]; then
 	growlnotify "Google Reader Imageboards" -m "Done downloading" --image ~/Pictures/icons/GoogleReader.icns -n "Google Reader ImageBoards"
+elif [ "$NOTIFY" == "terminal-notifier" ]; then
+	terminal-notifier -message "Done downloading" -title "Google Reader Imageboards" -open "http://www.google.com/reader/view/user/-/state/com.google/starred"
 fi
